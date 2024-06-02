@@ -10,8 +10,12 @@ typedef BlocBuilderCondition<S> = bool Function(S previous, S current);
 
 abstract class BlocBuilderBase<B extends StateStreamable<S>, S>
     extends StatefulWidget {
-  const BlocBuilderBase(
-      {super.key, this.bloc, this.buildWhen, this.instanceName});
+  const BlocBuilderBase({
+    super.key,
+    this.bloc,
+    this.buildWhen,
+    this.instanceName,
+  });
 
   final B? bloc;
 
@@ -102,7 +106,7 @@ class _BlocBuilderBaseState<B extends StateStreamable<S>, S>
   @override
   Widget build(BuildContext context) {
     if (widget.bloc == null) {
-      // TODO(anyone): Trigger a rebuild if the bloc reference has changed.
+      // Trigger a rebuild if the bloc reference has changed.
       // See https://github.com/felangel/bloc/issues/2127.
       if (!identical(
         _bloc,

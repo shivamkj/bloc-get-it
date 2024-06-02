@@ -78,7 +78,7 @@ class _BlocConsumerState<B extends StateStreamable<S>, S>
   @override
   Widget build(BuildContext context) {
     if (widget.bloc == null) {
-      // TODO(anyone): Trigger a rebuild if the bloc reference has changed.
+      // Trigger a rebuild if the bloc reference has changed.
       // See https://github.com/felangel/bloc/issues/2127.
       if (!identical(_bloc, GetIt.I.get<B>())) setState(() {});
     }
