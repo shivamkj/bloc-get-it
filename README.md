@@ -1,39 +1,13 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Bloc (GetIt Implementation)
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+By default BLoC package in Flutter uses provider for dependency injection (for adding BLoC in widget tree & lifecycle). Although provider added a good start but it has some shortcoming. Major issue with provider to start this project was, provider depends upon type of class to find BLoC up in the widget tree, that means only one BLoC can be used in a screen without any hack. This makes it difficult to work with reusable BLoCs. This packages uses GetIt for dependency injection instead of provider with almost same APIs, for using BLoC inside Flutter.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Ability to reuse same Bloc multiple times.
+- Access Bloc without using context.
+- No need for extra nested widget to get correct context.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+BlocProvider/MultiBlocProvider have their equivalent BlocInject/BlocMultiInject. Rest classes - BlocListener, BlocBuilder, BlocConsumer, BlocSelector have same signature, just one extra optional parameter instanceName, so same class type can be reused multiple times. RepositoryProvider/MultiRepositoryProvider is missing for now.
