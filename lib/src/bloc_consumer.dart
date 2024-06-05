@@ -10,12 +10,10 @@ class BlocConsumer<B extends StateStreamable<S>, S> extends StatefulWidget {
     required this.builder,
     required this.listener,
     super.key,
-    this.bloc,
     this.buildWhen,
     this.listenWhen,
+    this.instanceName,
   });
-
-  final B? bloc;
 
   final BlocWidgetBuilder<S> builder;
 
@@ -25,6 +23,10 @@ class BlocConsumer<B extends StateStreamable<S>, S> extends StatefulWidget {
 
   final BlocListenerCondition<S>? listenWhen;
 
+  /// [instanceName] if you provided is used for registering and getting bloc instance from [GetIt].
+  /// This will be required for using 2 bloc in the same scope
+  final String? instanceName;
+
   @override
   State<BlocConsumer<B, S>> createState() => _BlocConsumerState<B, S>();
 
@@ -32,7 +34,6 @@ class BlocConsumer<B extends StateStreamable<S>, S> extends StatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty<B?>('bloc', bloc))
       ..add(ObjectFlagProperty<BlocWidgetBuilder<S>>.has('builder', builder))
       ..add(ObjectFlagProperty<BlocWidgetListener<S>>.has('listener', listener))
       ..add(
@@ -57,31 +58,18 @@ class _BlocConsumerState<B extends StateStreamable<S>, S>
   @override
   void initState() {
     super.initState();
-    _bloc = widget.bloc ?? GetIt.I.get<B>();
-  }
-
-  @override
-  void didUpdateWidget(BlocConsumer<B, S> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final oldBloc = oldWidget.bloc ?? GetIt.I.get<B>();
-    final currentBloc = widget.bloc ?? oldBloc;
-    if (oldBloc != currentBloc) _bloc = currentBloc;
+    _bloc = GetIt.I.get<B>(instanceName: widget.instanceName);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc = widget.bloc ?? GetIt.I.get<B>();
+    final bloc = GetIt.I.get<B>(instanceName: widget.instanceName);
     if (_bloc != bloc) _bloc = bloc;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.bloc == null) {
-      // Trigger a rebuild if the bloc reference has changed.
-      // See https://github.com/felangel/bloc/issues/2127.
-      if (!identical(_bloc, GetIt.I.get<B>())) setState(() {});
-    }
     return BlocBuilder<B, S>(
       bloc: _bloc,
       builder: widget.builder,
