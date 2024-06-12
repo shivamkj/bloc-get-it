@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 class BlocInstances<T extends StateStreamableSource<Object?>> {
   const BlocInstances({
     required this.factoryFunc,
-    required this.instanceName,
+    this.instanceName,
   });
 
   /// A Function which returns the instance of [Bloc]
