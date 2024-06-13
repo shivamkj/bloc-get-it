@@ -40,8 +40,7 @@ class BlocSelector<B extends StateStreamable<S>, S, T> extends StatefulWidget {
   }
 }
 
-class _BlocSelectorState<B extends StateStreamable<S>, S, T>
-    extends State<BlocSelector<B, S, T>> {
+class _BlocSelectorState<B extends StateStreamable<S>, S, T> extends State<BlocSelector<B, S, T>> {
   late B _bloc;
   late T _state;
 

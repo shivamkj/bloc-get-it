@@ -9,8 +9,7 @@ typedef BlocWidgetListener<S> = void Function(BuildContext context, S state);
 
 typedef BlocListenerCondition<S> = bool Function(S previous, S current);
 
-abstract class BlocListenerBase<B extends StateStreamable<S>, S>
-    extends StatefulWidget {
+abstract class BlocListenerBase<B extends StateStreamable<S>, S> extends StatefulWidget {
   const BlocListenerBase({
     required this.listener,
     required this.child,
@@ -50,8 +49,7 @@ abstract class BlocListenerBase<B extends StateStreamable<S>, S>
   }
 }
 
-class BlocListener<B extends StateStreamable<S>, S>
-    extends BlocListenerBase<B, S> {
+class BlocListener<B extends StateStreamable<S>, S> extends BlocListenerBase<B, S> {
   const BlocListener({
     required super.listener,
     required super.child,
@@ -62,8 +60,7 @@ class BlocListener<B extends StateStreamable<S>, S>
   });
 }
 
-class _BlocListenerBaseState<B extends StateStreamable<S>, S>
-    extends State<BlocListenerBase<B, S>> {
+class _BlocListenerBaseState<B extends StateStreamable<S>, S> extends State<BlocListenerBase<B, S>> {
   StreamSubscription<S>? _subscription;
   late B _bloc;
   late S _previousState;
@@ -79,8 +76,7 @@ class _BlocListenerBaseState<B extends StateStreamable<S>, S>
   @override
   void didUpdateWidget(BlocListenerBase<B, S> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final oldBloc =
-        oldWidget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    final oldBloc = oldWidget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
     final currentBloc = widget.bloc ?? oldBloc;
     if (oldBloc != currentBloc) {
       if (_subscription != null) {
@@ -95,8 +91,7 @@ class _BlocListenerBaseState<B extends StateStreamable<S>, S>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc =
-        widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    final bloc = widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
     if (_bloc != bloc) {
       if (_subscription != null) {
         _unsubscribe();

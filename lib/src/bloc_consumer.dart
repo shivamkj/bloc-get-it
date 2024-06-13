@@ -51,8 +51,7 @@ class BlocConsumer<B extends StateStreamable<S>, S> extends StatefulWidget {
   }
 }
 
-class _BlocConsumerState<B extends StateStreamable<S>, S>
-    extends State<BlocConsumer<B, S>> {
+class _BlocConsumerState<B extends StateStreamable<S>, S> extends State<BlocConsumer<B, S>> {
   late B _bloc;
 
   @override

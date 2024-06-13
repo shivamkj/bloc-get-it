@@ -2,8 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 
-class BlocInject<T extends StateStreamableSource<Object?>>
-    extends StatefulWidget {
+class BlocInject<T extends StateStreamableSource<Object?>> extends StatefulWidget {
   const BlocInject({
     required this.factoryFunc,
     this.child,
@@ -25,8 +24,7 @@ class BlocInject<T extends StateStreamableSource<Object?>>
   State<BlocInject<T>> createState() => _BlocInjectState<T>();
 }
 
-class _BlocInjectState<T extends StateStreamableSource<Object?>>
-    extends State<BlocInject<T>> {
+class _BlocInjectState<T extends StateStreamableSource<Object?>> extends State<BlocInject<T>> {
   @override
   void initState() {
     GetIt.I.registerLazySingleton<T>(

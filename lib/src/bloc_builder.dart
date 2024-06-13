@@ -8,8 +8,7 @@ typedef BlocWidgetBuilder<S> = Widget Function(BuildContext context, S state);
 
 typedef BlocBuilderCondition<S> = bool Function(S previous, S current);
 
-abstract class BlocBuilderBase<B extends StateStreamable<S>, S>
-    extends StatefulWidget {
+abstract class BlocBuilderBase<B extends StateStreamable<S>, S> extends StatefulWidget {
   const BlocBuilderBase({
     super.key,
     this.bloc,
@@ -44,8 +43,7 @@ abstract class BlocBuilderBase<B extends StateStreamable<S>, S>
   }
 }
 
-class BlocBuilder<B extends StateStreamable<S>, S>
-    extends BlocBuilderBase<B, S> {
+class BlocBuilder<B extends StateStreamable<S>, S> extends BlocBuilderBase<B, S> {
   const BlocBuilder({
     required this.builder,
     super.key,
@@ -68,8 +66,7 @@ class BlocBuilder<B extends StateStreamable<S>, S>
   }
 }
 
-class _BlocBuilderBaseState<B extends StateStreamable<S>, S>
-    extends State<BlocBuilderBase<B, S>> {
+class _BlocBuilderBaseState<B extends StateStreamable<S>, S> extends State<BlocBuilderBase<B, S>> {
   late B _bloc;
   late S _state;
 
@@ -83,8 +80,7 @@ class _BlocBuilderBaseState<B extends StateStreamable<S>, S>
   @override
   void didUpdateWidget(BlocBuilderBase<B, S> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final oldBloc =
-        oldWidget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    final oldBloc = oldWidget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
     final currentBloc = widget.bloc ?? oldBloc;
     if (oldBloc != currentBloc) {
       _bloc = currentBloc;
@@ -95,8 +91,7 @@ class _BlocBuilderBaseState<B extends StateStreamable<S>, S>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc =
-        widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    final bloc = widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
     if (_bloc != bloc) {
       _bloc = bloc;
       _state = _bloc.state;
