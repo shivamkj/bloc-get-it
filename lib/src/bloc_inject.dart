@@ -17,7 +17,7 @@ class BlocInject<T extends StateStreamableSource<Object?>> extends StatefulWidge
   final Widget? child;
 
   /// [instanceName] if you provided is used for registering and getting bloc instance from [GetIt].
-  /// This will be required for using 2 bloc in the same scope
+  /// This will be required for using 2 bloc of same type in the same scope
   final String? instanceName;
 
   @override
@@ -42,11 +42,5 @@ class _BlocInjectState<T extends StateStreamableSource<Object?>> extends State<B
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (widget.child != null) {
-      return widget.child!;
-    } else {
-      return const SizedBox.shrink();
-    }
-  }
+  Widget build(BuildContext context) => widget.child != null ? widget.child! : const SizedBox.shrink();
 }

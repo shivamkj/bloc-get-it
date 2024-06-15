@@ -7,60 +7,40 @@ import 'package:get_it/get_it.dart';
 
 typedef BlocWidgetListener<S> = void Function(BuildContext context, S state);
 
-typedef BlocListenerCondition<S> = bool Function(S previous, S current);
+typedef BlocCondition<S> = bool Function(S previous, S current);
 
-abstract class BlocListenerBase<B extends StateStreamable<S>, S> extends StatefulWidget {
-  const BlocListenerBase({
+class BlocListener<B extends StateStreamable<S>, S> extends StatefulWidget {
+  const BlocListener({
     required this.listener,
     required this.child,
-    super.key,
-    this.bloc,
     this.listenWhen,
     this.instanceName,
+    super.key,
   });
 
   final Widget child;
 
-  final B? bloc;
-
   final BlocWidgetListener<S> listener;
 
-  final BlocListenerCondition<S>? listenWhen;
+  final BlocCondition<S>? listenWhen;
 
   /// [instanceName] if you provided is used for registering and getting bloc instance from [GetIt].
-  /// This will be required for using 2 bloc in the same scope
+  /// This will be required for using 2 bloc of same type in the same scope
   final String? instanceName;
 
   @override
-  State<BlocListenerBase<B, S>> createState() => _BlocListenerBaseState<B, S>();
+  State<BlocListener<B, S>> createState() => _BlocListenerState<B, S>();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty<B?>('bloc', bloc))
       ..add(ObjectFlagProperty<BlocWidgetListener<S>>.has('listener', listener))
-      ..add(
-        ObjectFlagProperty<BlocListenerCondition<S>?>.has(
-          'listenWhen',
-          listenWhen,
-        ),
-      );
+      ..add(ObjectFlagProperty<BlocCondition<S>?>.has('listenWhen', listenWhen));
   }
 }
 
-class BlocListener<B extends StateStreamable<S>, S> extends BlocListenerBase<B, S> {
-  const BlocListener({
-    required super.listener,
-    required super.child,
-    super.key,
-    super.bloc,
-    super.listenWhen,
-    super.instanceName,
-  });
-}
-
-class _BlocListenerBaseState<B extends StateStreamable<S>, S> extends State<BlocListenerBase<B, S>> {
+class _BlocListenerState<B extends StateStreamable<S>, S> extends State<BlocListener<B, S>> {
   StreamSubscription<S>? _subscription;
   late B _bloc;
   late S _previousState;
@@ -68,30 +48,15 @@ class _BlocListenerBaseState<B extends StateStreamable<S>, S> extends State<Bloc
   @override
   void initState() {
     super.initState();
-    _bloc = widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    _bloc = GetIt.I.get<B>(instanceName: widget.instanceName);
     _previousState = _bloc.state;
     _subscribe();
   }
 
   @override
-  void didUpdateWidget(BlocListenerBase<B, S> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final oldBloc = oldWidget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
-    final currentBloc = widget.bloc ?? oldBloc;
-    if (oldBloc != currentBloc) {
-      if (_subscription != null) {
-        _unsubscribe();
-        _bloc = currentBloc;
-        _previousState = _bloc.state;
-      }
-      _subscribe();
-    }
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc = widget.bloc ?? GetIt.I.get<B>(instanceName: widget.instanceName);
+    final bloc = GetIt.I.get<B>(instanceName: widget.instanceName);
     if (_bloc != bloc) {
       if (_subscription != null) {
         _unsubscribe();
@@ -123,7 +88,5 @@ class _BlocListenerBaseState<B extends StateStreamable<S>, S> extends State<Bloc
   }
 
   @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
+  Widget build(BuildContext context) => widget.child;
 }

@@ -10,4 +10,4 @@ By default BLoC package in Flutter uses provider for dependency injection (for a
 
 ## Getting started
 
-BlocProvider/MultiBlocProvider have their equivalent BlocInject/BlocMultiInject. Rest classes - BlocListener, BlocBuilder, BlocConsumer, BlocSelector have same signature, just one extra optional parameter instanceName, so same class type can be reused multiple times. RepositoryProvider/MultiRepositoryProvider is missing for now.
+BlocProvider/MultiBlocProvider have their equivalent BlocInject/BlocMultiInject. Rest classes - BlocListener, BlocBuilder, BlocConsumer, BlocSelector have similar signature, with one extra optional parameter instanceName, so same class type can be reused multiple times. RepositoryProvider/MultiRepositoryProvider is missing for now.

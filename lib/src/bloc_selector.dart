@@ -20,7 +20,7 @@ class BlocSelector<B extends StateStreamable<S>, S, T> extends StatefulWidget {
   final BlocWidgetSelector<S, T> selector;
 
   /// [instanceName] if you provided is used for registering and getting bloc instance from [GetIt].
-  /// This will be required for using 2 bloc in the same scope
+  /// This will be required for using 2 bloc of same type in the same scope
   final String? instanceName;
 
   @override
@@ -31,12 +31,7 @@ class BlocSelector<B extends StateStreamable<S>, S, T> extends StatefulWidget {
     super.debugFillProperties(properties);
     properties
       ..add(ObjectFlagProperty<BlocWidgetBuilder<T>>.has('builder', builder))
-      ..add(
-        ObjectFlagProperty<BlocWidgetSelector<S, T>>.has(
-          'selector',
-          selector,
-        ),
-      );
+      ..add(ObjectFlagProperty<BlocWidgetSelector<S, T>>.has('selector', selector));
   }
 }
 
@@ -64,7 +59,6 @@ class _BlocSelectorState<B extends StateStreamable<S>, S, T> extends State<BlocS
   @override
   Widget build(BuildContext context) {
     return BlocListener<B, S>(
-      bloc: _bloc,
       listener: (context, state) {
         final selectedState = widget.selector(state);
         if (_state != selectedState) setState(() => _state = selectedState);

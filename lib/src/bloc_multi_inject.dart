@@ -12,7 +12,7 @@ class BlocInstances<T extends StateStreamableSource<Object?>> {
   final FactoryFunc<T> factoryFunc;
 
   /// [instanceName] if you provided is used for registering and getting bloc instance from [GetIt].
-  /// This will be required for using 2 bloc in the same scope
+  /// This will be required for using 2 bloc of same type in the same scope
   final String? instanceName;
 
   void register() {
